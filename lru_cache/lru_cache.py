@@ -1,6 +1,7 @@
 import sys
 sys.path.append('../doubly_linked_list')
 from doubly_linked_list import DoublyLinkedList
+from doubly_linked_list import ListNode
 
 class LRUCache:
     """
@@ -17,6 +18,7 @@ class LRUCache:
         self.storage = DoublyLinkedList()
         # dictionary that holds a key, then values of the linked list in the same order
         self.map = {}
+        self.size = 0
 
     """
     Retrieves the value associated with the given key. Also
@@ -26,13 +28,12 @@ class LRUCache:
     key-value pair doesn't exist in the cache.
     """
     def get(self, key):
-        if key in self.map.keys():
-            print('key from inside GET', key)
+        if key in self.map:
             # Move key:value to end of order
-            self.storage.move_to_end(self.map[key])
-            print('self.map[key]:', self.map[key])
+            node = self.map[key]
+            self.storage.move_to_end(node)
             # Return the value associated with the key passed
-            return self.map[key]
+            return node.value[1]
         else:
             # or none if doesn't exist
             return None
@@ -49,36 +50,24 @@ class LRUCache:
     """
     def set(self, key, value):
         # IF the key already exists
-        if key in self.map.keys():
+        if key in self.map:
             # Update the value THIS NEEDS TO UPDATE THE NODE IN STORAGE
-            self.map[key] = value
+            node = self.map[key]
+            node.value = (key, value)
             # Move the node to the end of the list
-            self.storage.move_to_end(self.map[key])
-        # else: (IF the key is new)
-        else:
-            # If the length of storage is equal to the limit:
-            if self.storage.length >= self.limit:
-                # Add the new key / value to the map
-                self.map[key] = value
-                # Add the new value to the tail of storage
-                self.storage.add_to_tail(self.map[key])
-                # Remove the head of storage
-                self.storage.remove_from_head()
-            # If length of storage is less than limit:
-            else:
-                # Add the new key / value to the map
-                self.map[key] = value
-                # Add the new value to the tail of storage
-                self.storage.add_to_tail(self.map[key])
-
-tester = LRUCache()
-tester.set('item1', 'pahoyhoy')
-tester.set('item2', 'is')
-tester.set('item3', 'the')
-tester.set('item4', 'best')
-
-print(tester.storage)
-
-# test_dict = {'hi': 'there'}
-
-# print(test_dict['jim'])
+            self.storage.move_to_end(node)
+            return
+        # If the length of storage is equal to the limit:
+        if self.storage.length == self.limit:
+            # Remove the head of storage
+            old_node = self.storage.head.value[0]
+            del self.map[old_node]
+            #remove the head node from DLL
+            self.storage.remove_from_head()
+            self.size -= 1
+        # key is not in storage and we still have room in cache
+        # add the key / value
+        self.storage.add_to_tail((key, value))
+        self.map[key] = self.storage.tail
+        self.size += 1
+          
