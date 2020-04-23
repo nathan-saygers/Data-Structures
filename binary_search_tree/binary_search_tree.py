@@ -78,12 +78,47 @@ class BinarySearchTreeNode:
             # Call again on self.right
             self.right.for_each(cb)
 
+    def depth_first_iterative_for_each(self, cb):
+        stack = []
+        # add the root of the tree to the stack 
+        stack.append(self)
+        # loop so long as the stack still has elements 
+        while len(stack) > 0:
+            current_node = stack.pop()
+            # check if the right child exists
+            if current_node.right:
+                stack.append(current_node.right)
+            # check if the left child exists
+            if current_node.left:
+                stack.append(current_node.left)
+            cb(current_node.value)
+
+    # def breadth_first_iterative_for_each(self, cb):
+    #     # depth-first : stack 
+    #     # breadth-first : queue
+    #     q = Queue()
+    #     q.enqueu(self)
+    #     while len(q) > 0:
+    #         current_node = q.popleft()
+    #         if current_node.left:
+    #             q.enqueu(current_node.left)
+    #         if current_node.right:
+    #             q.enqueu(current_node.right)
+    #         cb(current_node.value)
+
     # DAY 2 Project -----------------------
 
     # Print all the values in order from low to high
     # Hint:  Use a recursive, depth first traversal
     def in_order_print(self, node):
-        pass
+        # IF there is a left node, call again on left node
+        if node.left:
+            node.in_order_print(node.left)
+        # Print node
+        print(node.value)
+        # IF there is a node to the right, call again on right
+        if node.right:
+            node.in_order_print(node.right)
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
@@ -94,6 +129,7 @@ class BinarySearchTreeNode:
     # in an iterative depth first traversal
     def dft_print(self, node):
         pass
+        
 
     # STRETCH Goals -------------------------
     # Note: Research may be required
@@ -107,22 +143,17 @@ class BinarySearchTreeNode:
         pass
 
 
-# tester = BinarySearchTreeNode(10)
-# tester.insert(3)
-# tester.insert(1)
-# tester.insert(15)
-# tester.insert(8)
-# tester.insert(25)
-# tester.insert(35)
+tester = BinarySearchTreeNode(10)
+tester.insert(3)
+tester.insert(1)
+tester.insert(15)
+tester.insert(8)
+tester.insert(25)
+tester.insert(20)
 
-# def add1(val):
-#     return val + 1
+def add1(val):
+    print(val)
 
-# print('find 8', tester.contains(8))
-# print('find 22', tester.contains(22))
-# print('get max', tester.get_max())
-# print('add 1', tester.for_each(add1))
-# print('find 8', tester.contains(8))
-# print('find 25', tester.contains(25))
-# print('find 9', tester.contains(9))
-# print('find 26', tester.contains(26))
+tester.in_order_print(tester)
+# print(tester.left.value)
+# print(tester.right.value)
