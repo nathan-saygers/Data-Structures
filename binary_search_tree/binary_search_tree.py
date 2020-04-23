@@ -94,17 +94,17 @@ class BinarySearchTreeNode:
             cb(current_node.value)
 
     # def breadth_first_iterative_for_each(self, cb):
-    #     # depth-first : stack 
-    #     # breadth-first : queue
-    #     q = Queue()
-    #     q.enqueu(self)
-    #     while len(q) > 0:
-    #         current_node = q.popleft()
-    #         if current_node.left:
-    #             q.enqueu(current_node.left)
-    #         if current_node.right:
-    #             q.enqueu(current_node.right)
-    #         cb(current_node.value)
+        # depth-first : stack 
+        # breadth-first : queue
+        # q = Queue()
+        # q.enqueu(self)
+        # while len(q) > 0:
+        #     current_node = q.popleft()
+        #     if current_node.left:
+        #         q.enqueu(current_node.left)
+        #     if current_node.right:
+        #         q.enqueu(current_node.right)
+        #     cb(current_node.value)
 
     # DAY 2 Project -----------------------
 
@@ -123,7 +123,16 @@ class BinarySearchTreeNode:
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
     def bft_print(self, node):
-        pass
+        store = Queue()
+        store.enqueue(node)
+        # Put current node into the store
+        while store.size > 0:
+            current_node = store.dequeue()
+            if current_node.left:
+                store.enqueue(current_node.left)
+            if current_node.right:
+                store.enqueue(current_node.right)
+            print(current_node.value)
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
@@ -154,6 +163,6 @@ tester.insert(20)
 def add1(val):
     print(val)
 
-tester.in_order_print(tester)
+tester.bft_print(tester)
 # print(tester.left.value)
 # print(tester.right.value)
