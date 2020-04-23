@@ -137,7 +137,19 @@ class BinarySearchTreeNode:
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self, node):
-        pass
+        stack = []
+        # add the root of the tree to the stack 
+        stack.append(self)
+        # loop so long as the stack still has elements 
+        while len(stack) > 0:
+            current_node = stack.pop()
+            # check if the right child exists
+            if current_node.right:
+                stack.append(current_node.right)
+            # check if the left child exists
+            if current_node.left:
+                stack.append(current_node.left)
+            print(current_node.value)
         
 
     # STRETCH Goals -------------------------
@@ -152,17 +164,17 @@ class BinarySearchTreeNode:
         pass
 
 
-tester = BinarySearchTreeNode(10)
-tester.insert(3)
-tester.insert(1)
-tester.insert(15)
-tester.insert(8)
-tester.insert(20)
-tester.insert(25)
+# tester = BinarySearchTreeNode(10)
+# tester.insert(3)
+# tester.insert(1)
+# tester.insert(15)
+# tester.insert(8)
+# tester.insert(20)
+# tester.insert(25)
 
-def add1(val):
-    print(val)
+# def add1(val):
+#     print(val)
 
-tester.bft_print(tester)
+# tester.dft_print(tester)
 # print(tester.left.value)
 # print(tester.right.value)
