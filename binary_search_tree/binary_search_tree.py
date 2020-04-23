@@ -157,8 +157,8 @@ tester.insert(3)
 tester.insert(1)
 tester.insert(15)
 tester.insert(8)
-tester.insert(25)
 tester.insert(20)
+tester.insert(25)
 
 def add1(val):
     print(val)
