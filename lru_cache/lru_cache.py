@@ -1,3 +1,8 @@
+import sys
+sys.path.append('../doubly_linked_list')
+from doubly_linked_list import DoublyLinkedList
+from doubly_linked_list import ListNode
+
 class LRUCache:
     """
     Our LRUCache class keeps track of the max number of nodes it
@@ -7,7 +12,13 @@ class LRUCache:
     to every node stored in the cache.
     """
     def __init__(self, limit=10):
-        pass
+        # variable for number of held nodes
+        self.limit = limit
+        # doubly linked list that holds key value entries
+        self.storage = DoublyLinkedList()
+        # dictionary that holds a key, then values of the linked list in the same order
+        self.map = {}
+        self.size = 0
 
     """
     Retrieves the value associated with the given key. Also
@@ -17,7 +28,15 @@ class LRUCache:
     key-value pair doesn't exist in the cache.
     """
     def get(self, key):
-        pass
+        if key in self.map:
+            # Move key:value to end of order
+            node = self.map[key]
+            self.storage.move_to_end(node)
+            # Return the value associated with the key passed
+            return node.value[1]
+        else:
+            # or none if doesn't exist
+            return None
 
     """
     Adds the given key-value pair to the cache. The newly-
@@ -30,4 +49,25 @@ class LRUCache:
     the newly-specified value.
     """
     def set(self, key, value):
-        pass
+        # IF the key already exists
+        if key in self.map:
+            # Update the value THIS NEEDS TO UPDATE THE NODE IN STORAGE
+            node = self.map[key]
+            node.value = (key, value)
+            # Move the node to the end of the list
+            self.storage.move_to_end(node)
+            return
+        # If the length of storage is equal to the limit:
+        if self.storage.length == self.limit:
+            # Remove the head of storage
+            old_node = self.storage.head.value[0]
+            del self.map[old_node]
+            #remove the head node from DLL
+            self.storage.remove_from_head()
+            self.size -= 1
+        # key is not in storage and we still have room in cache
+        # add the key / value
+        self.storage.add_to_tail((key, value))
+        self.map[key] = self.storage.tail
+        self.size += 1
+          
